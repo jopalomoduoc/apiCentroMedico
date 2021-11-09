@@ -41,7 +41,8 @@ DJANGO_APPS = [
 
 THIRDPARTY_APPS = [
     'rest_framework',
-    'rest_framework.authtoken'
+    'rest_framework.authtoken',
+    'corsheaders'
 ] 
 
 LOCAL_APPS = [
@@ -58,7 +59,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
+
+CORS_ORIGIN_ALLOW_ALL = True
+#En caso False: CORS_ORIGIN_WHITELIST = ('http://localhost:8100',)
 
 ROOT_URLCONF = 'core.urls'
 
