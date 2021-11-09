@@ -3,8 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import authentication, permissions, status
 from django.contrib.auth.models import User
-from .models import Paciente
-from .serializers import UserSerializer, PacienteSerializer
+from .models import Paciente, Region, Comuna, Sucursal, Especialidad, Pago, Persona, Medico, Agenda
 
 # Create your views here.
 class ListUser(APIView):

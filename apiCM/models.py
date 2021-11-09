@@ -46,14 +46,6 @@ class Especialidad(models.Model):
     def __str__(self):
         return self.nombre 
 
-class Pago(models.Model):
-    tipo = models.CharField(max_length=50)
-    id_agenda = models.IntegerField(max_length=11)
-    fecha_pago = models.DateField()  
-    monto_pago = models.IntegerField(max_length=11)   
-def __str__(self):
-    return self.tipo
-
 class Medico(models.Model):
       id_persona = models.ForeignKey(Persona, on_delete=models.PROTECT) 
       id_especialidad = models.ForeignKey(Especialidad, on_delete=models.PROTECT)
@@ -69,3 +61,11 @@ class Agenda(models.Model):
 
     def __str__(self):
         return self.correo
+
+class Pago(models.Model):
+    tipo = models.CharField(max_length=50)
+    id_agenda = models.ForeignKey(Agenda, on_delete=models.PROTECT)
+    fecha_pago = models.DateField()  
+    monto_pago = models.IntegerField()   
+def __str__(self):
+    return self.tipo
