@@ -47,10 +47,11 @@ class Especialidad(models.Model):
         return self.nombre 
 
 class Medico(models.Model):
-      id_persona = models.ForeignKey(Persona, on_delete=models.CASCADE) 
-      id_especialidad = models.ForeignKey(Especialidad, on_delete=models.CASCADE)
-def __str__(self):
-    return self.id_persona         
+    correo = models.CharField(max_length=50, verbose_name='Correo del Medico')
+    id_persona = models.ForeignKey(Persona, on_delete=models.CASCADE) 
+    id_especialidad = models.ForeignKey(Especialidad, on_delete=models.CASCADE)
+def __int__(self):
+    return self.id
 
 class Agenda(models.Model):
     correo = models.ForeignKey(Paciente, on_delete=models.CASCADE)
@@ -59,13 +60,13 @@ class Agenda(models.Model):
     fecha_termino = models.DateField(verbose_name='Fecha de Termino')
     id_sucursal = models.ForeignKey(Sucursal, on_delete=models.CASCADE)
 
-    def __str__(self):
-        return self.correo
+    def __int__(self):
+        return self.id
 
 class Pago(models.Model):
     tipo = models.CharField(max_length=50, verbose_name='Tipo de Pago')
     id_agenda = models.ForeignKey(Agenda, on_delete=models.CASCADE)
     fecha_pago = models.DateField(verbose_name='Fecha de Pago')
     monto_pago = models.IntegerField(verbose_name='Monto de Pago')   
-def __str__(self):
-    return self.tipo
+def __int__(self):
+    return self.id

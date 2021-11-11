@@ -10,44 +10,44 @@ class UserSerializer(serializers.ModelSerializer):
 class PacienteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Paciente
-        fields = ['correo', 'password', 'repeatPassword', 'celular', 'enfermedades', 'alergias', 'sexo']
+        fields = ['correo', 'id_persona', 'password', 'repeatPassword', 'celular', 'enfermedades', 'alergias', 'sexo']
 
 class RegionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Region
-        fields = ['id_region', 'nombre_region']
+        fields = ['id', 'nombre']
 
 class ComunaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comuna
-        fields = ['id_comuna', 'nombre_comuna', 'id_region']
+        fields = ['id', 'nombre', 'id_region']
 
 class SucursalSerializer(serializers.ModelSerializer):
     class Meta:
         model = Sucursal
-        fields = ['id_sucursal', 'nombre_sucursal', 'id_comuna']
+        fields = ['id', 'nombre', 'id_comuna']
 
 class EspecialidadSerializer(serializers.ModelSerializer):
     class Meta:
         model = Especialidad
-        fields = ['id_especialidad', 'nombre_especialidad']
+        fields = ['id', 'nombre']
 
 class PagoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Pago
-        fields = ['id_pago', 'tipo_pago', 'id_agenda', 'fecha_pago', 'monto_pago']
+        fields = ['id', 'tipo', 'id_agenda', 'fecha_pago', 'monto_pago']
 
 class PersonaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Persona
-        fields = ['id_persona', 'rut', 'nombre', 'apellido', 'dirección', 'id_comuna']
+        fields = ['id', 'rut', 'nombre', 'apellido', 'direccion', 'id_comuna']
 
 class MedicoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Medico
-        fields = ['id_medico', 'id_persona', 'id_especialidad']
+        fields = ['id', 'correo', 'id_persona', 'id_especialidad']
 
 class AgendaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Agenda
-        fields = ['id_agenda', 'correo', 'id_medico', 'fecha_inicio', 'fecha_termino', 'id_sucursal']
+        fields = ['id', 'correo', 'id_medico', 'fecha_inicio', 'fecha_termino', 'id_sucursal']
