@@ -92,7 +92,7 @@ class ListRegion(APIView):
             return Response({"status": "error", "data": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
     def patch(self, request, id=None):
-        item = Region.objects.get(id_region=id)
+        item = Region.objects.get(id=id)
         serializer = RegionSerializer(item, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
@@ -102,7 +102,7 @@ class ListRegion(APIView):
 
     def get(self, request, id=None):
         if id:
-            item = Region.objects.get(id_region=id)
+            item = Region.objects.get(id=id)
             serializer = RegionSerializer(item)
             return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
         
@@ -111,7 +111,7 @@ class ListRegion(APIView):
         return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
 
     def delete(self, request, id=None):
-        item = get_object_or_404(Region, id_region=id)
+        item = get_object_or_404(Region, id=id)
         item.delete()
         return Response({"status": "success", "data": "User Deleted"})
 
@@ -128,7 +128,7 @@ class ListComuna(APIView):
             return Response({"status": "error", "data": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
     def patch(self, request, id=None):
-        item = Comuna.objects.get(id_comuna=id)
+        item = Comuna.objects.get(id=id)
         serializer = ComunaSerializer(item, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
@@ -138,7 +138,7 @@ class ListComuna(APIView):
 
     def get(self, request, id=None):
         if id:
-            item = Comuna.objects.get(id_comuna=id)
+            item = Comuna.objects.get(id=id)
             serializer = ComunaSerializer(item)
             return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
         
@@ -147,7 +147,7 @@ class ListComuna(APIView):
         return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
 
     def delete(self, request, id=None):
-        item = get_object_or_404(Comuna, id_comuna=id)
+        item = get_object_or_404(Comuna, id=id)
         item.delete()
         return Response({"status": "success", "data": "User Deleted"})
 
@@ -164,7 +164,7 @@ class ListSucursal(APIView):
             return Response({"status": "error", "data": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
     def patch(self, request, id=None):
-        item = Sucursal.objects.get(id_sucursal=id)
+        item = Sucursal.objects.get(id=id)
         serializer = SucursalSerializer(item, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
@@ -174,7 +174,7 @@ class ListSucursal(APIView):
 
     def get(self, request, id=None):
         if id:
-            item = Sucursal.objects.get(id_sucursal=id)
+            item = Sucursal.objects.get(id=id)
             serializer = SucursalSerializer(item)
             return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
         
@@ -183,7 +183,7 @@ class ListSucursal(APIView):
         return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
 
     def delete(self, request, id=None):
-        item = get_object_or_404(Sucursal, id_sucursal=id)
+        item = get_object_or_404(Sucursal, id=id)
         item.delete()
         return Response({"status": "success", "data": "User Deleted"})
 
@@ -200,7 +200,7 @@ class ListEspecialidad(APIView):
             return Response({"status": "error", "data": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
     def patch(self, request, id=None):
-        item = Especialidad.objects.get(id_especialidad=id)
+        item = Especialidad.objects.get(id=id)
         serializer = EspecialidadSerializer(item, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
@@ -210,7 +210,7 @@ class ListEspecialidad(APIView):
 
     def get(self, request, id=None):
         if id:
-            item = Especialidad.objects.get(id_especialidad=id)
+            item = Especialidad.objects.get(id=id)
             serializer = EspecialidadSerializer(item)
             return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
         
@@ -219,7 +219,7 @@ class ListEspecialidad(APIView):
         return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
 
     def delete(self, request, id=None):
-        item = get_object_or_404(Especialidad, id_especialidad=id)
+        item = get_object_or_404(Especialidad, id=id)
         item.delete()
         return Response({"status": "success", "data": "User Deleted"})
 
@@ -236,7 +236,7 @@ class ListPago(APIView):
             return Response({"status": "error", "data": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
     def patch(self, request, id=None):
-        item = Pago.objects.get(id_pago=id)
+        item = Pago.objects.get(id=id)
         serializer = PagoSerializer(item, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
@@ -246,7 +246,7 @@ class ListPago(APIView):
 
     def get(self, request, id=None):
         if id:
-            item = Pago.objects.get(id_pago=id)
+            item = Pago.objects.get(id=id)
             serializer = PagoSerializer(item)
             return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
         
@@ -255,7 +255,7 @@ class ListPago(APIView):
         return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
 
     def delete(self, request, id=None):
-        item = get_object_or_404(Pago, id_pago=id)
+        item = get_object_or_404(Pago, id=id)
         item.delete()
         return Response({"status": "success", "data": "User Deleted"})
 
@@ -272,7 +272,7 @@ class ListPersona(APIView):
             return Response({"status": "error", "data": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
     def patch(self, request, id=None):
-        item = Persona.objects.get(id_persona=id)
+        item = Persona.objects.get(id=id)
         serializer = PersonaSerializer(item, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
@@ -282,7 +282,7 @@ class ListPersona(APIView):
 
     def get(self, request, id=None):
         if id:
-            item = Persona.objects.get(id_persona=id)
+            item = Persona.objects.get(id=id)
             serializer = PersonaSerializer(item)
             return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
         
@@ -291,7 +291,7 @@ class ListPersona(APIView):
         return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
 
     def delete(self, request, id=None):
-        item = get_object_or_404(Persona, id_persona=id)
+        item = get_object_or_404(Persona, id=id)
         item.delete()
         return Response({"status": "success", "data": "User Deleted"})
 
@@ -308,7 +308,7 @@ class ListMedico(APIView):
             return Response({"status": "error", "data": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
     def patch(self, request, id=None):
-        item = Medico.objects.get(id_medico=id)
+        item = Medico.objects.get(id=id)
         serializer = MedicoSerializer(item, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
@@ -318,7 +318,7 @@ class ListMedico(APIView):
 
     def get(self, request, id=None):
         if id:
-            item = Medico.objects.get(id_medico=id)
+            item = Medico.objects.get(id=id)
             serializer = MedicoSerializer(item)
             return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
         
@@ -327,7 +327,7 @@ class ListMedico(APIView):
         return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
 
     def delete(self, request, id=None):
-        item = get_object_or_404(Medico, id_medico=id)
+        item = get_object_or_404(Medico, id=id)
         item.delete()
         return Response({"status": "success", "data": "User Deleted"})
 
@@ -344,7 +344,7 @@ class ListAgenda(APIView):
             return Response({"status": "error", "data": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
     def patch(self, request, id=None):
-        item = Agenda.objects.get(id_agenda=id)
+        item = Agenda.objects.get(id=id)
         serializer = AgendaSerializer(item, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
@@ -354,7 +354,7 @@ class ListAgenda(APIView):
 
     def get(self, request, id=None):
         if id:
-            item = Agenda.objects.get(id_agenda=id)
+            item = Agenda.objects.get(id=id)
             serializer = AgendaSerializer(item)
             return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
         
@@ -363,6 +363,6 @@ class ListAgenda(APIView):
         return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
 
     def delete(self, request, id=None):
-        item = get_object_or_404(Agenda, id_agenda=id)
+        item = get_object_or_404(Agenda, id=id)
         item.delete()
         return Response({"status": "success", "data": "User Deleted"})
