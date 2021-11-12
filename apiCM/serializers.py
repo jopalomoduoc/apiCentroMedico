@@ -1,16 +1,12 @@
+from django.db.models import fields
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from .models import Paciente, Region, Comuna, Sucursal, Especialidad, Pago, Persona, Medico, Agenda
+from .models import Cargo, Paciente, Region, Comuna, Sucursal, Especialidad, Pago, Agenda, Trabajador
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'username', 'first_name', 'last_name', 'email']
-
-class PacienteSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Paciente
-        fields = ['correo', 'id_persona', 'password', 'repeatPassword', 'celular', 'enfermedades', 'alergias', 'sexo']
 
 class RegionSerializer(serializers.ModelSerializer):
     class Meta:
@@ -20,34 +16,39 @@ class RegionSerializer(serializers.ModelSerializer):
 class ComunaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comuna
-        fields = ['id', 'nombre', 'id_region']
+        fields = ['id', 'nombre', 'region']
 
 class SucursalSerializer(serializers.ModelSerializer):
     class Meta:
         model = Sucursal
-        fields = ['id', 'nombre', 'id_comuna']
+        fields = ['id', 'nombre', 'comuna']
+
+class PacienteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Paciente
+        fields = ['correo', 'rut', 'nombre', 'apellido', 'direccion', 'comuna', 'password', 'repeatPassword', 'celular', 'enfermedades', 'alergias', 'sexo']
 
 class EspecialidadSerializer(serializers.ModelSerializer):
     class Meta:
         model = Especialidad
-        fields = ['id', 'nombre']
+        fields = ['id', 'especialidad']
 
-class PagoSerializer(serializers.ModelSerializer):
+class CargoSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Pago
-        fields = ['id', 'tipo', 'id_agenda', 'fecha_pago', 'monto_pago']
+        model = Cargo
+        fields = ['id', 'cargo']
 
-class PersonaSerializer(serializers.ModelSerializer):
+class TrabajadorSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Persona
-        fields = ['id', 'rut', 'nombre', 'apellido', 'direccion', 'id_comuna']
-
-class MedicoSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Medico
-        fields = ['id', 'correo', 'id_persona', 'id_especialidad']
+        model = Trabajador
+        fields = ['correo', 'cargo', 'rut', 'nombre', 'apellido', 'direccion', 'comuna']
 
 class AgendaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Agenda
-        fields = ['id', 'correo', 'id_medico', 'fecha_inicio', 'fecha_termino', 'id_sucursal']
+        fields = ['id', 'paciente', 'medico', 'especialidad', 'fecha', 'hora', 'sucursal']
+
+class PagoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Pago
+        fields = ['id', 'tipo', 'agenda', 'fecha', 'monto']

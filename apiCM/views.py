@@ -3,8 +3,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import authentication, permissions, status
 from django.contrib.auth.models import User
-from .models import Paciente, Region, Comuna, Sucursal, Especialidad, Pago, Persona, Medico, Agenda
-from .serializers import UserSerializer, PacienteSerializer, RegionSerializer, ComunaSerializer, SucursalSerializer, EspecialidadSerializer, PagoSerializer, PersonaSerializer, MedicoSerializer, AgendaSerializer
+from .models import Cargo, Paciente, Region, Comuna, Sucursal, Especialidad, Pago, Agenda, Trabajador
+from .serializers import CargoSerializer, TrabajadorSerializer, UserSerializer, PacienteSerializer, RegionSerializer, ComunaSerializer, SucursalSerializer, EspecialidadSerializer, PagoSerializer, AgendaSerializer
 
 # Create your views here.
 class ListUser(APIView):
@@ -43,42 +43,6 @@ class ListUser(APIView):
         item.delete()
         return Response({"status": "success", "data": "User Deleted"})
 
-class ListPaciente(APIView):
-    authentication_classes = [authentication.TokenAuthentication]
-    permission_classes = [permissions.IsAdminUser, permissions.IsAuthenticated]
-
-    def post(self, request):
-        serializer = PacienteSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
-        else:
-            return Response({"status": "error", "data": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
-
-    def patch(self, request, id=None):
-        item = Paciente.objects.get(correo=id)
-        serializer = PacienteSerializer(item, data=request.data, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-            return Response({"status": "success", "data": serializer.data})
-        else:
-            return Response({"status": "error", "data": serializer.errors})
-
-    def get(self, request, id=None):
-        if id:
-            item = Paciente.objects.get(correo=id)
-            serializer = PacienteSerializer(item)
-            return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
-        
-        items = Paciente.objects.all()
-        serializer = PacienteSerializer(items, many=True)
-        return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
-
-    def delete(self, request, id=None):
-        item = get_object_or_404(Paciente, correo=id)
-        item.delete()
-        return Response({"status": "success", "data": "User Deleted"})
-
 class ListRegion(APIView):
     authentication_classes = [authentication.TokenAuthentication]
     permission_classes = [permissions.IsAdminUser, permissions.IsAuthenticated]
@@ -113,7 +77,7 @@ class ListRegion(APIView):
     def delete(self, request, id=None):
         item = get_object_or_404(Region, id=id)
         item.delete()
-        return Response({"status": "success", "data": "User Deleted"})
+        return Response({"status": "success", "data": "Region Deleted"})
 
 class ListComuna(APIView):
     authentication_classes = [authentication.TokenAuthentication]
@@ -149,7 +113,7 @@ class ListComuna(APIView):
     def delete(self, request, id=None):
         item = get_object_or_404(Comuna, id=id)
         item.delete()
-        return Response({"status": "success", "data": "User Deleted"})
+        return Response({"status": "success", "data": "Comuna Deleted"})
 
 class ListSucursal(APIView):
     authentication_classes = [authentication.TokenAuthentication]
@@ -185,7 +149,43 @@ class ListSucursal(APIView):
     def delete(self, request, id=None):
         item = get_object_or_404(Sucursal, id=id)
         item.delete()
-        return Response({"status": "success", "data": "User Deleted"})
+        return Response({"status": "success", "data": "Sucursal Deleted"})
+
+class ListPaciente(APIView):
+    authentication_classes = [authentication.TokenAuthentication]
+    permission_classes = [permissions.IsAdminUser, permissions.IsAuthenticated]
+
+    def post(self, request):
+        serializer = PacienteSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
+        else:
+            return Response({"status": "error", "data": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+    def patch(self, request, id=None):
+        item = Paciente.objects.get(correo=id)
+        serializer = PacienteSerializer(item, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"status": "success", "data": serializer.data})
+        else:
+            return Response({"status": "error", "data": serializer.errors})
+
+    def get(self, request, id=None):
+        if id:
+            item = Paciente.objects.get(correo=id)
+            serializer = PacienteSerializer(item)
+            return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
+        
+        items = Paciente.objects.all()
+        serializer = PacienteSerializer(items, many=True)
+        return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
+
+    def delete(self, request, id=None):
+        item = get_object_or_404(Paciente, correo=id)
+        item.delete()
+        return Response({"status": "success", "data": "Paciente Deleted"})
 
 class ListEspecialidad(APIView):
     authentication_classes = [authentication.TokenAuthentication]
@@ -223,12 +223,12 @@ class ListEspecialidad(APIView):
         item.delete()
         return Response({"status": "success", "data": "User Deleted"})
 
-class ListPago(APIView):
+class ListCargo(APIView):
     authentication_classes = [authentication.TokenAuthentication]
     permission_classes = [permissions.IsAdminUser, permissions.IsAuthenticated]
 
     def post(self, request):
-        serializer = PagoSerializer(data=request.data)
+        serializer = CargoSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
@@ -236,8 +236,8 @@ class ListPago(APIView):
             return Response({"status": "error", "data": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
     def patch(self, request, id=None):
-        item = Pago.objects.get(id=id)
-        serializer = PagoSerializer(item, data=request.data, partial=True)
+        item = Cargo.objects.get(id=id)
+        serializer = CargoSerializer(item, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response({"status": "success", "data": serializer.data})
@@ -246,25 +246,25 @@ class ListPago(APIView):
 
     def get(self, request, id=None):
         if id:
-            item = Pago.objects.get(id=id)
-            serializer = PagoSerializer(item)
+            item = Cargo.objects.get(id=id)
+            serializer = CargoSerializer(item)
             return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
         
-        items = Pago.objects.all()
-        serializer = PagoSerializer(items, many=True)
+        items = Cargo.objects.all()
+        serializer = CargoSerializer(items, many=True)
         return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
 
     def delete(self, request, id=None):
-        item = get_object_or_404(Pago, id=id)
+        item = get_object_or_404(Cargo, id=id)
         item.delete()
-        return Response({"status": "success", "data": "User Deleted"})
+        return Response({"status": "success", "data": "Cargo Deleted"})
 
-class ListPersona(APIView):
+class ListTrabajador(APIView):
     authentication_classes = [authentication.TokenAuthentication]
     permission_classes = [permissions.IsAdminUser, permissions.IsAuthenticated]
 
     def post(self, request):
-        serializer = PersonaSerializer(data=request.data)
+        serializer = TrabajadorSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
@@ -272,8 +272,8 @@ class ListPersona(APIView):
             return Response({"status": "error", "data": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
     def patch(self, request, id=None):
-        item = Persona.objects.get(id=id)
-        serializer = PersonaSerializer(item, data=request.data, partial=True)
+        item = Trabajador.objects.get(correo=id)
+        serializer = TrabajadorSerializer(item, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response({"status": "success", "data": serializer.data})
@@ -282,54 +282,18 @@ class ListPersona(APIView):
 
     def get(self, request, id=None):
         if id:
-            item = Persona.objects.get(id=id)
-            serializer = PersonaSerializer(item)
+            item = Trabajador.objects.get(correo=id)
+            serializer = TrabajadorSerializer(item)
             return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
         
-        items = Persona.objects.all()
-        serializer = PersonaSerializer(items, many=True)
+        items = Trabajador.objects.all()
+        serializer = TrabajadorSerializer(items, many=True)
         return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
 
     def delete(self, request, id=None):
-        item = get_object_or_404(Persona, id=id)
+        item = get_object_or_404(Trabajador, correo=id)
         item.delete()
-        return Response({"status": "success", "data": "User Deleted"})
-
-class ListMedico(APIView):
-    authentication_classes = [authentication.TokenAuthentication]
-    permission_classes = [permissions.IsAdminUser, permissions.IsAuthenticated]
-
-    def post(self, request):
-        serializer = MedicoSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
-        else:
-            return Response({"status": "error", "data": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
-
-    def patch(self, request, id=None):
-        item = Medico.objects.get(id=id)
-        serializer = MedicoSerializer(item, data=request.data, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-            return Response({"status": "success", "data": serializer.data})
-        else:
-            return Response({"status": "error", "data": serializer.errors})
-
-    def get(self, request, id=None):
-        if id:
-            item = Medico.objects.get(id=id)
-            serializer = MedicoSerializer(item)
-            return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
-        
-        items = Medico.objects.all()
-        serializer = MedicoSerializer(items, many=True)
-        return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
-
-    def delete(self, request, id=None):
-        item = get_object_or_404(Medico, id=id)
-        item.delete()
-        return Response({"status": "success", "data": "User Deleted"})
+        return Response({"status": "success", "data": "Trabajador Deleted"})
 
 class ListAgenda(APIView):
     authentication_classes = [authentication.TokenAuthentication]
@@ -365,4 +329,40 @@ class ListAgenda(APIView):
     def delete(self, request, id=None):
         item = get_object_or_404(Agenda, id=id)
         item.delete()
-        return Response({"status": "success", "data": "User Deleted"})
+        return Response({"status": "success", "data": "Agenda Deleted"})
+
+class ListPago(APIView):
+    authentication_classes = [authentication.TokenAuthentication]
+    permission_classes = [permissions.IsAdminUser, permissions.IsAuthenticated]
+
+    def post(self, request):
+        serializer = PagoSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
+        else:
+            return Response({"status": "error", "data": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+    def patch(self, request, id=None):
+        item = Pago.objects.get(id=id)
+        serializer = PagoSerializer(item, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"status": "success", "data": serializer.data})
+        else:
+            return Response({"status": "error", "data": serializer.errors})
+
+    def get(self, request, id=None):
+        if id:
+            item = Pago.objects.get(id=id)
+            serializer = PagoSerializer(item)
+            return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
+        
+        items = Pago.objects.all()
+        serializer = PagoSerializer(items, many=True)
+        return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
+
+    def delete(self, request, id=None):
+        item = get_object_or_404(Pago, id=id)
+        item.delete()
+        return Response({"status": "success", "data": "Pago Deleted"})

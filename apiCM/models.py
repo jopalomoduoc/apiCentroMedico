@@ -8,22 +8,23 @@ class Region(models.Model):
 
 class Comuna(models.Model):
     nombre =  models.CharField(max_length=90, verbose_name='Nombre de Comuna') 
-    id_region =  models.ForeignKey(Region, on_delete=models.CASCADE)
+    region =  models.ForeignKey(Region, on_delete=models.CASCADE)
     def __str__(self):
         return self.nombre
 
-class Persona(models.Model):
-    rut = models.CharField(max_length=14, verbose_name='Rut Persona')
-    nombre = models.CharField(max_length=50, verbose_name='Nombre Persona')
-    apellido = models.CharField(max_length=50, verbose_name='Apellido Persona')
-    direccion = models.CharField(max_length=50, verbose_name='Dirección Persona')
-    id_comuna = models.ForeignKey(Comuna, on_delete=models.CASCADE)
+class Sucursal(models.Model):
+    nombre = models.CharField(max_length=50, verbose_name='Nombre Sucursal')
+    comuna = models.ForeignKey(Comuna, on_delete=models.CASCADE) 
     def __str__(self):
         return self.nombre
 
 class Paciente(models.Model):
     correo = models.CharField(primary_key=True, max_length=50, verbose_name='Correo de Usuario')
-    id_persona = models.ForeignKey(Persona, on_delete=models.CASCADE)
+    rut = models.CharField(max_length=14, verbose_name='Rut Persona')
+    nombre = models.CharField(max_length=50, verbose_name='Nombre Persona')
+    apellido = models.CharField(max_length=50, verbose_name='Apellido Persona')
+    direccion = models.CharField(max_length=50, verbose_name='Dirección Persona')
+    comuna = models.ForeignKey(Comuna, on_delete=models.CASCADE)
     password = models.CharField(max_length=12, verbose_name='Contraseña')
     repeatPassword = models.CharField(max_length=12, verbose_name='Repetir Contraseña')
     celular = models.IntegerField(verbose_name="Celular")
@@ -34,39 +35,46 @@ class Paciente(models.Model):
     def __str__(self):
         return self.correo
 
-class Sucursal(models.Model):
-    nombre = models.CharField(max_length=50, verbose_name='Nombre Sucursal')
-    id_comuna = models.ForeignKey(Comuna, on_delete=models.CASCADE) 
-    def __str__(self):
-        return self.nombre
-    
 class Especialidad(models.Model):
-    nombre = models.CharField(max_length=50, verbose_name='Nombre Especialidad')
+    especialidad = models.CharField(max_length=50, verbose_name='Nombre Especialidad')
 
     def __str__(self):
-        return self.nombre 
+        return self.especialidad
 
-class Medico(models.Model):
-    correo = models.CharField(max_length=50, verbose_name='Correo del Medico')
-    id_persona = models.ForeignKey(Persona, on_delete=models.CASCADE) 
-    id_especialidad = models.ForeignKey(Especialidad, on_delete=models.CASCADE)
-def __int__(self):
-    return self.id
+class Cargo(models.Model):
+    cargo = models.CharField(max_length=50, verbose_name='Cargo')
+
+    def __str__(self):
+        return self.cargo
+
+class Trabajador(models.Model):
+    correo = models.CharField(primary_key=True, max_length=50, verbose_name='Correo de Trabajador')
+    cargo = models.ForeignKey(Cargo, on_delete=models.CASCADE)
+    rut = models.CharField(max_length=14, verbose_name='Rut Trabajador')
+    nombre = models.CharField(max_length=50, verbose_name='Nombre Trabajador')
+    apellido = models.CharField(max_length=50, verbose_name='Apellido Trabajador')
+    direccion = models.CharField(max_length=50, verbose_name='Dirección Trabajador')
+    comuna = models.ForeignKey(Comuna, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.correo
 
 class Agenda(models.Model):
-    correo = models.ForeignKey(Paciente, on_delete=models.CASCADE)
-    id_medico =  models.ForeignKey(Medico, on_delete=models.CASCADE)  
-    fecha_inicio = models.DateField(verbose_name='Fecha de Inicio')
-    fecha_termino = models.DateField(verbose_name='Fecha de Termino')
-    id_sucursal = models.ForeignKey(Sucursal, on_delete=models.CASCADE)
+    paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE)
+    medico =  models.ForeignKey(Trabajador, on_delete=models.CASCADE)
+    especialidad = models.ForeignKey(Especialidad, on_delete=models.CASCADE) 
+    fecha = models.DateField(verbose_name='Fecha de Cita')
+    hora = models.TimeField(verbose_name='Hora de Cita')
+    sucursal = models.ForeignKey(Sucursal, on_delete=models.CASCADE)
 
     def __int__(self):
         return self.id
 
 class Pago(models.Model):
     tipo = models.CharField(max_length=50, verbose_name='Tipo de Pago')
-    id_agenda = models.ForeignKey(Agenda, on_delete=models.CASCADE)
-    fecha_pago = models.DateField(verbose_name='Fecha de Pago')
-    monto_pago = models.IntegerField(verbose_name='Monto de Pago')   
-def __int__(self):
-    return self.id
+    agenda = models.ForeignKey(Agenda, on_delete=models.CASCADE)
+    fecha = models.DateField(verbose_name='Fecha de Pago')
+    monto = models.IntegerField(verbose_name='Monto de Pago')
+
+    def __int__(self):
+        return self.id
